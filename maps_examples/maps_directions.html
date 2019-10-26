@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Directions</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map-canvas {
+          height: 100%;
+          width: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      
+      function initMap() {
+      var pointA = new google.maps.LatLng(19.3253771, -99.1876603),
+          pointB = new google.maps.LatLng(19.2978772, -99.2110491),
+          myOptions = {
+              zoom: 7,
+              center: pointA
+          },
+          map = new google.maps.Map(document.getElementById('map-canvas'), myOptions),
+          // Instantiate a directions service.
+          directionsService = new google.maps.DirectionsService(),
+          directionsDisplay = new google.maps.DirectionsRenderer({
+              map: map
+          }),
+          markerA = new google.maps.Marker({
+              position: pointA,
+              title: "point A",
+              label: "A",
+              map: map
+          }),
+          markerB = new google.maps.Marker({
+              position: pointB,
+              title: "point B",
+              label: "B",
+              map: map
+          });
+
+      // get route from A to B
+      calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+
+    }
+
+
+
+    function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+        directionsService.route({
+            origin: pointA,
+            destination: pointB,
+            avoidTolls: true,
+            avoidHighways: false,
+            travelMode: google.maps.TravelMode.DRIVING
+        }, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
+    }
+
+
+
+
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEk0nTl1diEPkPVsN6phT-pmkEkPhy_jk&callback=initMap">
+    </script>
+  </body>
+</html>s
